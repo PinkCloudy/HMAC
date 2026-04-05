@@ -1,32 +1,14 @@
-/*
- * ============================================================
- *  TV1 – BAD_MAC & HẰNG SỐ DÙNG CHUNG
- *  Thành viên: Quang Minh
- *  File: tv1_basic_mac.cpp
- * ============================================================
- *  TRỌNG TÂM:
- *    Tại sao Hash(Key || Message) là NGUY HIỂM?
- *    → Length Extension Attack: hacker biết tag1 = SHA256(K||M1)
- *      có thể tính được tag2 = SHA256(K||M1||padding||M2)
- *      mà KHÔNG biết K.
- *    → HMAC giải quyết bằng cách băm 2 lớp lồng nhau.
- * ============================================================
- */
-
 #include "basic_mac.h"
 #include "Sha256.h"
 #include <iostream>
 #include <cstring>
 
-// ─── HẰNG SỐ KHÓA DEMO ────────────────────────────────────
 const uint8_t SHARED_KEY_MAC[16] = {
     'm','y','s','e','c','r','e','t','k','e','y','1','2','3','4','5'
 };
 const uint8_t SHARED_KEY_ENC[16] = {
     'e','n','c','r','y','p','t','i','o','n','k','e','y','1','2','3'
 };
-
-// ─── BAD_MAC: SHA256(Key || Message) ─────────────────────
 std::array<uint8_t,32> bad_mac(
     const std::vector<uint8_t>& key,
     const std::vector<uint8_t>& message)
@@ -37,8 +19,6 @@ std::array<uint8_t,32> bad_mac(
     combined.insert(combined.end(), message.begin(), message.end());
     return sha256(combined);   // SHA256(Key || Message)
 }
-
-// ─── DEMO LENGTH EXTENSION ATTACK ─────────────────────────
 void demo_length_extension_attack() {
     std::cout << "========================================\n";
     std::cout << "  [TV1] Length Extension Attack\n";
@@ -55,7 +35,6 @@ void demo_length_extension_attack() {
     std::cout << "  => Phai dung HMAC (2 lop bam long nhau).\n\n";
 }
 
-// ─── TIỆN ÍCH ────────────────────────────────────────────
 std::vector<uint8_t> str_to_bytes(const std::string& s) {
     return std::vector<uint8_t>(s.begin(), s.end());
 }
