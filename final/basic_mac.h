@@ -6,14 +6,14 @@
 
 // ── HẰNG SỐ DÙNG CHUNG TOÀN PROJECT ──────────────────────
 constexpr int HMAC_KEY_SIZE = 16;   // 16 byte = 128 bit
-constexpr int AES_KEY_SIZE  = 16;   // AES-128
+constexpr int AES_KEY_SIZE  = 32;   // AES-128
 
 // Khóa demo (dùng chung cho tất cả thành viên)
 extern const uint8_t SHARED_KEY_MAC[16];  // khóa HMAC
-extern const uint8_t SHARED_KEY_ENC[16];  // khóa mã hóa
+extern const uint8_t SHARED_KEY_ENC[32];  // khóa mã hóa
 
 // bad_mac = SHA256(Key || Message)  [DỄ BỊ TẤN CÔNG]
-std::array<uint8_t,32> bad_mac(
+std::vector<uint8_t> bad_mac(
     const std::vector<uint8_t>& key,
     const std::vector<uint8_t>& message
 );
