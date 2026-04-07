@@ -55,7 +55,7 @@ int main() {
     // Lấy khóa HMAC 16 bytes từ basic_mac
     std::vector<uint8_t> hmacKey(SHARED_KEY_MAC, SHARED_KEY_MAC + 16);
     // 2. Alice gửi tin
-    std::string secretMessage = "Loideptrai";
+    std::string secretMessage = "antoanthongtinhayquamoinguoioi";
     std::vector<uint8_t> plaintext(secretMessage.begin(), secretMessage.end());
     
     std::vector<uint8_t> packet = createSecurePacket(plaintext, aesKey, hmacKey);
