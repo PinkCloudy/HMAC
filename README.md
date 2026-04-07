@@ -35,4 +35,4 @@ Dự án này mô phỏng một hệ thống **Authenticated Encryption (Mã hó
 Mở Terminal/Command Prompt tại thư mục chứa source code và chạy lệnh sau để gom tất cả các file `.cpp` và biên dịch:
 
 ```bash
-g++ *.cpp -o do_an_hmacC
+g++ *.cpp -o do_an_hmac
