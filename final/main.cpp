@@ -29,7 +29,6 @@ int main() {
 
     // ==========================================================
     // KỊCH BẢN 1: TEST VECTOR CHUẨN QUỐC TẾ (RFC 4231 - Test Case 1)
-    // Chứng minh hàm HMAC tự code chạy chuẩn xác 100%
     // ==========================================================
     std::cout << "\n>>> KICH BAN 1: KIEM THU HMAC VOI CHUAN RFC 4231 <<<\n";
     
@@ -49,13 +48,13 @@ int main() {
     // ==========================================================
     std::cout << "\n\n>>> KICH BAN 2: MO PHONG HE THONG AE VA TAN CONG <<<\n";
 
-    // 1. Thống nhất khóa (SỬA LẠI ĐOẠN NÀY ĐỂ ĐỒNG BỘ VỚI BASIC_MAC)
+    // 1. Thống nhất khóa 
     // Lấy khóa AES 32 bytes từ basic_mac
     std::vector<uint8_t> aesKey(SHARED_KEY_ENC, SHARED_KEY_ENC + 32); 
     // Lấy khóa HMAC 16 bytes từ basic_mac
     std::vector<uint8_t> hmacKey(SHARED_KEY_MAC, SHARED_KEY_MAC + 16);
     // 2. Alice gửi tin
-    std::string secretMessage = "antoanthongtinhayquamoinguoioi";
+    std::string secretMessage = "anToanThongTinHayQuaMoiNguoiOi";
     std::vector<uint8_t> plaintext(secretMessage.begin(), secretMessage.end());
     
     std::vector<uint8_t> packet = createSecurePacket(plaintext, aesKey, hmacKey);
