@@ -1,38 +1,44 @@
-# HMA# 🛡️ Đồ Án An Toàn Thông Tin: Authenticated Encryption (HMAC & AES-256)
+***
 
-**Thực hiện bởi:** Nhóm 6  
-**Môn học:** An Toàn Thông Tin  
+```markdown
+# 🛡️ Authenticated Encryption System (HMAC & AES-256)
 
-## 📖 Giới thiệu đồ án
-Dự án này mô phỏng một hệ thống **Authenticated Encryption (Mã hóa có xác thực)** sử dụng mô hình an toàn nhất: **Encrypt-then-MAC**. 
-Điểm đặc biệt của đồ án là toàn bộ các thuật toán lõi bao gồm **SHA-256, HMAC, và AES-256-CBC** đều được **tự lập trình 100% bằng C++ thuần**, không sử dụng bất kỳ thư viện mật mã bên ngoài nào (như OpenSSL).
+**Developed by:** Group 6  
+**Course:** Information Security  
 
-## ✨ Các tính năng nổi bật
-1. **Demo Lỗ hổng Hash Length Extension Attack:** Trình diễn trực quan lý do tại sao `MAC = Hash(Key || Message)` là không an toàn.
-2. **HMAC Core:** Triển khai chính xác phương trình toán học của HMAC. Vượt qua bộ Test Vector chuẩn quốc tế **RFC 4231**.
-3. **AES-256-CBC:** Tự lập trình hộp đen mã hóa AES-256, hỗ trợ sinh IV ngẫu nhiên an toàn và gỡ/đệm (padding) PKCS7 chuẩn xác.
-4. **Chống Timing Attack:** Sử dụng thuật toán so sánh chuỗi hằng số thời gian (`Constant-time Compare`) khi xác thực chữ ký MAC.
-5. **Mô phỏng Hệ thống AE:** Giả lập 2 kịch bản mạng:
-   - Dữ liệu truyền đi an toàn và được giải mã thành công.
-   - Dữ liệu bị Hacker can thiệp (đảo bit) trên đường truyền và bị hệ thống phát hiện, từ chối giải mã.
+---
 
-## 📂 Cấu trúc mã nguồn
-- `main.cpp` : File chạy chính, chứa các kịch bản demo (Test Vector, Hacker Attack).
-- `basic_mac.h/cpp` : Hàm băm đơn giản chứa lỗ hổng (dùng để so sánh) & Khóa dùng chung.
-- `sha256.h/cpp` : Thuật toán băm SHA-256 (Tự code từ A-Z).
-- `hmac.h/cpp` : Thuật toán xác thực HMAC.
-- `aes_crypto.h/cpp` : Thuật toán mã hóa AES-256 chế độ CBC.
-- `ae_system.h/cpp` : Hệ thống đóng gói và bóc tách gói tin (Encrypt-then-MAC).
-- `utils.h/cpp` : Các hàm tiện ích in chuỗi Hex và so sánh an toàn.
+## 📖 Introduction
+This project implements a secure **Authenticated Encryption (AE)** system adhering to the gold standard paradigm: **Encrypt-then-MAC (EtM)**. 
 
-## 🚀 Hướng dẫn Cài đặt & Sử dụng
+The defining characteristic of this project is that all core cryptographic primitives—including **SHA-256, HMAC, and AES-256-CBC**—were **implemented completely from scratch (100% pure C++)**. No external cryptographic libraries (such as OpenSSL, LibreSSL, or Crypto++) were utilized. This approach provides a transparent, deep dive into the inner mathematical workings of low-level cryptographic construction.
 
-### 1. Yêu cầu hệ thống
-- Trình biên dịch C++ (GCC/MinGW, Clang, hoặc MSVC).
-- Hỗ trợ chuẩn C++11 trở lên.
+## ✨ Key Features
+1. **Hash Length Extension Attack Demo:** A practical, visual demonstration showing why the naive approach `MAC = Hash(Key || Message)` is inherently broken, illustrating the absolute cryptographic necessity of HMAC.
+2. **HMAC Core:** A mathematically precise implementation of the Hash-based Message Authentication Code. It successfully passes the standard international test vectors defined in **RFC 4231**.
+3. **AES-256-CBC:** A native block-cipher implementation of AES-256 in Cipher Block Chaining (CBC) mode. Includes secure Initialization Vector (IV) handling and accurate PKCS7 padding/unpadding validation.
+4. **Timing Attack Mitigation:** Implements a `constant-time string comparison` algorithm for MAC verification, eliminating side-channel timing leaks.
+5. **End-to-End AE Simulation:** Simulates network communication via two primary test scenarios:
+   * **Secure Transmission:** The ciphertext and MAC arrive unaltered, resulting in successful verification and decryption.
+   * **Tampered Transmission (Hacker Scenario):** An adversary intercepts and alters bits within the ciphertext or MAC during transit. The system detects the modification immediately and rejects the packet *before* triggering any decryption routines, preventing padding oracle vulnerabilities.
 
-### 2. Biên dịch (Compile)
-Mở Terminal/Command Prompt tại thư mục chứa source code và chạy lệnh sau để gom tất cả các file `.cpp` và biên dịch:
+## 📂 Repository Structure
+* `main.cpp` : The central driver containing the execution flows (RFC test vectors, secure transmission simulation, and hacker attack simulation).
+* `basic_mac.h/cpp` : Implementation of the flawed simple MAC function (used to demonstrate the length extension attack) & shared key definitions.
+* `sha256.h/cpp` : Custom implementation of the SHA-256 cryptographic hash function from scratch.
+* `hmac.h/cpp` : Implementation of the Hash-based Message Authentication Code (HMAC-SHA256) algorithm.
+* `aes_crypto.h/cpp` : AES-256 encryption and decryption routines operating in CBC mode.
+* `ae_system.h/cpp` : The Authenticated Encryption system orchestrator, handling packet packing and unpacking (Encrypt-then-MAC logic).
+* `utils.h/cpp` : Helper utilities for Hex string conversions and constant-time comparisons.
+
+## 🚀 Getting Started
+
+### 1. Prerequisites
+- A modern C++ compiler supporting **C++11** or higher (e.g., GCC/MinGW, Clang, or MSVC).
+- Command-line interface / Terminal.
+
+### 2. Compilation
+Navigate to the root directory containing the source files and execute the following command to compile the project:
 
 ```bash
 g++ *.cpp -o do_an_hmac
